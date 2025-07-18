@@ -1,4 +1,5 @@
-// src/vault/crypto.rs — cleaned
+//sorry but this is not much readable, do not judge
+
 use ring::{
     aead::{Aad, LessSafeKey, Nonce, UnboundKey, AES_256_GCM},
     pbkdf2,
@@ -9,8 +10,6 @@ use anyhow::anyhow;
 pub const SALT_LEN: usize  = 16;
 pub const NONCE_LEN: usize = 12;
 const PBKDF2_ITER: u32     = 100_000;
-
-/* ───────────── Key‑Derivation ───────────── */
 
 pub fn derive_key(master: &str, salt: &[u8]) -> [u8; 32] {
     let mut key = [0u8; 32];
@@ -23,8 +22,6 @@ pub fn derive_key(master: &str, salt: &[u8]) -> [u8; 32] {
     );
     key
 }
-
-/* ───────────── AES‑256‑GCM Encrypt/Decrypt ───────────── */
 
 pub fn encrypt(key: &[u8; 32], nonce: &[u8; NONCE_LEN], mut data: Vec<u8>) -> anyhow::Result<Vec<u8>> {
     let key = LessSafeKey::new(UnboundKey::new(&AES_256_GCM, key).map_err(|e| anyhow!("ring: {e:?}"))?);
