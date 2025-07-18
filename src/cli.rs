@@ -1,4 +1,3 @@
-// === src/cli.rs ===
 use clap::{ArgGroup, Parser};
 
 #[derive(Parser, Debug)]
