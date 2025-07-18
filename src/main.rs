@@ -42,15 +42,14 @@ fn main() -> anyhow::Result<()> {
         vault::delete_vault(&vname)?;
 
     } else if cli.list.is_some() {
-        // Ensure session is loaded first
-        session::load_session()?; // Will error out if not logged in
+        session::load_session()?;
         vault::list_entries()?;
 
     } else if cli.patch_master_key {
         session::patch_master_key()?;
 
     } else if let Some(service) = cli.view_entry.as_deref() {
-        session::load_session()?; // Ensure session exists
+        session::load_session()?;
         vault::view_entry(service)?;
 
     } else {
