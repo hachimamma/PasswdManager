@@ -8,7 +8,6 @@ use std::collections::HashMap;
 use anyhow::{bail, Result};
 use tracing::*;
 
-/// In‑memory representation of a vault
 pub type Vault = HashMap<String, Credential>;
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -16,8 +15,6 @@ pub struct Credential {
     pub username: String,
     pub password: String,
 }
-
-/*──────────────────────── Vault‑level helpers ───────────────────────────────*/
 
 /// `passwd --new-vault <name>`
 pub fn create_vault(name: &str, force: bool) -> Result<()> {
@@ -138,8 +135,6 @@ pub fn delete_entry(service: &str) -> Result<()> {
     store::save_vault(&sess.master_key, &sess.vault_name, &vault)?;
     Ok(())
 }
-
-/*──────── un‑implemented vault‑level ops (rename / delete vault) ────────────*/
 
 pub fn patch_vault(_name: &str) -> Result<()> {
     bail!("patch‑vault not implemented yet")
