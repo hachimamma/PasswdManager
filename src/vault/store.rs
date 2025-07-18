@@ -1,5 +1,3 @@
-// src/vault/store.rs
-
 use super::crypto::{self, NONCE_LEN, SALT_LEN};
 use crate::util;
 use rand::{rngs::OsRng, RngCore};
