@@ -47,7 +47,6 @@ pub fn login() -> Result<()> {
         bail!("Vault '{}' does not exist.", vault_name);
     }
 
-    // Validate credentials by trying to decrypt the vault
     store::load_encrypted(&master_key, &vault_path)
         .with_context(|| "Invalid master password or corrupt vault.")?;
 
@@ -79,7 +78,6 @@ pub fn patch_master_key() -> Result<()> {
         bail!("New master key mismatch");
     }
 
-    // Load and save vault with new key
     let path = store::vault_path(&session.vault_name);
     let vault = store::load_encrypted(&old, &path)?;
     store::save_vault(&new, &session.vault_name, &vault)?;
