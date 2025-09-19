@@ -11,20 +11,17 @@ pub struct Session {
     pub master_key: String,
 }
 
-/// Get the path to the session file
 pub fn session_file() -> PathBuf {
     dirs::config_dir()
         .unwrap_or_else(|| PathBuf::from("."))
         .join(".passwd_session")
 }
 
-/// Save the current session
 fn save_session(session: &Session) -> Result<()> {
     fs::write(session_file(), serde_json::to_string(session)?)?;
     Ok(())
 }
 
-/// Load current session (errors if not logged in)
 pub fn load_session() -> Result<Session> {
     let path = session_file();
     let content = fs::read_to_string(&path)
@@ -34,7 +31,6 @@ pub fn load_session() -> Result<Session> {
         .with_context(|| "Failed to deserialize session file")
 }
 
-/// Perform login and store session if successful
 pub fn login() -> Result<()> {
     println!("[*] Vault name:");
     let vault_name = util::prompt("> ");
@@ -60,7 +56,6 @@ pub fn login() -> Result<()> {
     Ok(())
 }
 
-/// Patch master key
 pub fn patch_master_key() -> Result<()> {
     let mut session = load_session()?;
 
@@ -87,3 +82,4 @@ pub fn patch_master_key() -> Result<()> {
     println!("[+] Master key updated.");
     Ok(())
 }
+
